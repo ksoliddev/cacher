@@ -1,7 +1,14 @@
 import express from 'express';
+import redis from 'redis';
 import cacher from '../lib';
 
 const app = express();
+
+const cacherOptions = {
+    redis : redis.createClient()
+};
+
+cacher.config(cacherOptions);
 
 app.get('/express', cacher.handle.bind(cacher), (req : any, res : any)=>{
     res.json(true);

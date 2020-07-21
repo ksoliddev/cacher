@@ -5,9 +5,9 @@ export interface SetCacheFunction {
 }
 
 export  interface GetCacheFunction {
-    (requestData: CacheDataType): CacheDataType;
+    (requestData: CacheDataType): Promise<CacheDataType>;
 }
 
 export interface ResetCacheFunction {
-    (requestData: CacheDataType): void;
+    (requestData: CacheDataType): Promise<void>;
 }

@@ -1,8 +1,9 @@
 const handlers = require('./handlers');
 import Security from './security';
-import Storage from './interfaces/storage.interface';
+import { Storage } from './interfaces/storage.interface';
 import MemoryStorage from './storages/memory.storage';
 import { CacheDataType } from './types/data.type';
+import RedisStorage from './storages/redis.storage';
 
 class Cacher {
 
@@ -11,31 +12,40 @@ private storage : Storage = new MemoryStorage();
 
 public config(options : any){
     this.options = options
+
+    if (this.options.redis){
+        this.storage = new RedisStorage(this.options.redis);
+    }
+}
+
+private orderUrlQuerys(url : string){
+    const queryArray = url.split('?');
+    if (queryArray.length === 2){
+        const query = queryArray[1];
+        const array = query.split('&').sort();
+        url =  `${queryArray[0]}?${array.join('&')}`;
+    }
+    return url;
 }
 
 private generateRequestId(req : any) : string{
     const {originalUrl} = req;
-    console.log("originalUrl: ", originalUrl);
-    return Security.encrypt(originalUrl);
+    const originalUrlOrded = this.orderUrlQuerys(originalUrl);
+    return Security.encrypt(originalUrlOrded);
 }
 
 private generateResource(req : any) : string{
     const {originalUrl} = req;
-    const array = originalUrl.split('/');
+    const array = (originalUrl.split('?').shift()).split('/');
     const resource = array[1];
     console.log("resource: ", resource);
     return Security.encrypt(resource);
 }
 
-private getRequestId(req : any) : string{
-    const {url} = req;
-    return Security.decrypt(url);
-}
-
-private retrieveData(requestData : CacheDataType, res : any, next : any){
+private async retrieveCacheData(requestData : CacheDataType, res : any, next : any){
     let result;
-    const cache : CacheDataType = this.storage.getCache(requestData);
-    if (cache){
+    const cache : CacheDataType = await this.storage.getCache(requestData);
+    if (cache.data){
         console.log("Usou Cache");
         result = Security.decrypt(cache.data);
         res.json(result);
@@ -48,7 +58,7 @@ private retrieveData(requestData : CacheDataType, res : any, next : any){
     }
 }
 
-private resetData(requestData : CacheDataType){
+private resetCacheData(requestData : CacheDataType){
     this.storage.resetCache(requestData)
 }
 
@@ -59,13 +69,12 @@ public async handle(req : any, res : any, next : any){
     const requestMethod = req.method;
     switch(requestMethod){
         case  'GET' :
-            return this.retrieveData(requestData, res, next);
+            return this.retrieveCacheData(requestData, res, next);
         case  'POST' :
         case  'PUT' :
+        case  'PATCH' :
         case  'DELETE' :
-            this.resetData(requestData);
-            next();
-            break;
+            this.resetCacheData(requestData);
         default:
             next();
     }

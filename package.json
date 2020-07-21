@@ -25,13 +25,14 @@
   "author": "Kissema Eduardo Rafael",
   "license": "MIT",
   "dependencies": {
-    "redis": "^3.0.2"
   },
   "devDependencies": {
     "@types/express": "^4.17.7",
     "@types/jest": "^26.0.4",
+    "@types/redis": "^2.8.25",
     "express": "^4.17.1",
     "jest": "^26.1.0",
+    "redis": "^3.0.2",
     "ts-node-dev": "^1.0.0-pre.51",
     "typescript": "^3.9.6"
   }
