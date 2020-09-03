@@ -4,21 +4,19 @@ import cacher from '../lib';
 
 const app = express();
 
-const cacherOptions = {
+const cacherMidlleWare = cacher({
     redis : redis.createClient()
-};
+});
 
-cacher.config(cacherOptions);
+app.get('/express', cacherMidlleWare.handle, (req : any, res : any)=>{
+    res.json({'resultado' : ['laranja', 'banana', 'tamara']});
+});
 
-app.get('/express', cacher.handle.bind(cacher), (req : any, res : any)=>{
+app.get('/express/:id', cacherMidlleWare.handle, (req : any, res : any)=>{
     res.json(true);
 });
 
-app.get('/express/:id', cacher.handle.bind(cacher), (req : any, res : any)=>{
-    res.json(true);
-});
-
-app.post('/express', cacher.handle.bind(cacher), (req : any, res : any)=>{
+app.post('/express', cacherMidlleWare.handle, (req : any, res : any)=>{
     res.json(true);
 });
 
