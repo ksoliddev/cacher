@@ -75,11 +75,12 @@ app.delete('/fruits/:id', cacherMidlleWare.handle, (req : any, res : any)=>{
     res.json("[DELETE] - Fruit deleted!");
 });
 
-app.listen(3333, ()=>console.log("Express: Running Server"));
+app.listen(3333, ()=>console.log("Running Server [Using Cacher Pro]"));
 ```
 
 For development or testing environment you may not pass the `storage` client and it will use the `memory storage`. Its supports the following storages clients:
-- Memory (or Local DB)
+- Memory (default)
+- Filesystem
 - Redis (recomended)
 - MongoDB
 

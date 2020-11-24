@@ -28,9 +28,9 @@
   "author": "Kissema Eduardo Rafael",
   "license": "GNU Affero GPL",
   "dependencies": {
-    "coveralls": "^3.1.0"
   },
   "devDependencies": {
+    "coveralls": "^3.1.0",
     "@types/express": "^4.17.7",
     "@types/jest": "^26.0.4",
     "@types/redis": "^2.8.25",
