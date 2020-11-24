@@ -1,5 +1,5 @@
 {
-  "name": "cacher",
+  "name": "cacher-pro",
   "version": "0.0.1",
   "description": "nodejs middleware for intelligence cache system using memory, filesystem, redis or mondogb",
   "main": "./lib/index.js",
@@ -13,7 +13,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/ksoliddev/cacher"
+    "url": "https://github.com/ksoliddev/cacher-pro"
   },
   "keywords": [
     "node",
