@@ -1,6 +1,6 @@
 import express from 'express';
 import redis from 'redis';
-import cacher from '../lib';
+import cacher from '../src';
 
 const app = express();
 
