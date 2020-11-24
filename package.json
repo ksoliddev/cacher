@@ -1,6 +1,6 @@
 {
   "name": "cacher-pro",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "description": "nodejs middleware for intelligence cache system using memory, filesystem, redis or mondogb",
   "main": "./lib/index.js",
   "types": "./lib/index.d.ts",
@@ -27,8 +27,7 @@
   ],
   "author": "Kissema Eduardo Rafael",
   "license": "GNU Affero GPL",
-  "dependencies": {
-  },
+  "dependencies": {},
   "devDependencies": {
     "coveralls": "^3.1.0",
     "@types/express": "^4.17.7",
